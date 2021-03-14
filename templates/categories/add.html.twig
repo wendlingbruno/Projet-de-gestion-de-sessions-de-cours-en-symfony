@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une catégorie{% endblock %}
+
+{% block contenu %}
+    
+{% if editMode %}
+<h3 class="textCentre">Edition de la catégorie {{ categories.nom }}</h3>
+
+{% else %}
+<h3 class="textCentre">Ajouter une catégorie</h3>    
+
+{% endif %}
+
+    {{ form(formCategories) }}
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil administrateur de {{ admin.prenom }}{% endblock %}
+
+{% block contenu %}
+<h2 class="textCentre">
+    {# <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+    </svg> #}
+    Profil administrateur de <a  href='{{ path('admin_show', {'id':admin.id}) }}'> {{ admin.nom }}</a>
+</h2>
+
+
+
+<div class="card text-white bg-primary mb-3 mx-auto" style="max-width: 30rem;">
+  <div class="card-header"><h4>Profil de l'administrateur</h4></div>
+  <div class="card-body">
+    <h4 class="card-title couleurNoir">{{ admin.prenom ~ " " ~ admin.nom | upper }} </h4>
+
+<ul class="noStyle">
+    <li>Sexe : {{ admin.sexe }}</li>
+    <li>Date de naissance : {{ admin.dateNaissance | date('d/m/Y') ~ " (" ~ date().diff(date(admin.dateNaissance)).y ~ " ans)" ~}}</li>
+    <li>Ville : {{ admin.ville | upper }}</li>
+    <li>Courriel : {{ admin.email }}</li>
+    <li>Téléphone : {{ admin.telephone }}</li>
+</ul>
+
+{% if app.user == admin %}
+
+<br>
+        <a class= "icon_add" href="{{ path('admin_edit', {'id':app.user.id}) }}"><button type="button" class="btn btn-dark">Modifier mon profil</button></a>
+        <a class= "icon_add" href="{{ path('admin_edit_password', {'id':app.user.id}) }}"><button type="button" class="btn btn-dark">Changer mon mot de passe</button></a>
+    <br><br>
+
+
+{% endif %}
+  </div>
+{% endblock %}

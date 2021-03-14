@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if editMode %}
+        Editer une session
+    {% else %}
+        Ajouter une session  
+    {% endif %} 
+
+{% endblock %}
+
+{% block body %}
+
+{% if editMode %}
+    <h3 class="textCentre">Editer la session <a href='{{ path("sessions_detail", {"id":sessions.id}) }}'>{{ sessions.nom }}</a></h3>
+{% else %}
+    <h3 class="textCentre">Ajouter une session</h3>
+{% endif %}
+
+    {{ form_start(formSessions) }}
+    {{ form_row(formSessions.nom) }}
+    {{ form_row(formSessions.dateDebut) }}
+    {{ form_row(formSessions.dateFin) }}
+    {{ form_row(formSessions.placesMax) }}
+
+    {% if editMode %}
+        <button type="submit" class="btn">Editer</button>
+    {% else %}
+        <button type="submit" class="btn">Créer</button>    
+    {% endif %}
+    
+    {{ form_end(formSessions) }}
+
+
+{% endblock %}

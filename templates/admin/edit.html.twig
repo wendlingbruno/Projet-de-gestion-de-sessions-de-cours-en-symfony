@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition Administrateur{% endblock %}
+
+
+
+{% block contenu %}
+
+<h3 class="textCentre">Edition de l'administrateur <a href='{{ path('admin_show', {'id':admin.id}) }}'>{{ admin.nom }}</a></h3>
+    
+    {{ form(formAdmin) }}
+
+{% endblock %}

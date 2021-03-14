@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if editMode %}
+        Editer un module
+    {% else %}
+        Ajouter un module
+    {% endif %} 
+
+{% endblock %}
+
+{% block body %}
+
+{% if editMode %}
+<h3 class="textCentre">Edition du module <a href={{ path("modules_by_session", {'id':modules.id}) }}>{{ modules.nom }}</a></h3>
+
+{% else %}
+<h3 class="textCentre">Ajouter un module</h3>    
+
+{% endif %}
+
+    {{ form_start(formModules) }}
+    {{ form_row(formModules.nom) }}
+    {{ form_row(formModules.categories) }}
+
+    {% if editMode %}
+        <button type="submit" class="btn">Editer</button>
+    {% else %}
+        <button type="submit" class="btn">Créer</button>    
+    {% endif %}
+    
+    {{ form_end(formModules) }}
+
+
+{% endblock %}

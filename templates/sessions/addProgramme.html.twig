@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Ajouter un programme
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(formProgramme) }}
+    {{ form_row(formProgramme.modules) }}
+    {{ form_row(formProgramme.jours) }}
+
+    {% if editMode %}
+        <button type="submit" class="btn">Editer</button>
+    {% else %}
+        <button type="submit" class="btn">Créer</button>
+    {% endif %}
+
+    {{ form_end(formProgramme) }}
+
+
+{% endblock %}

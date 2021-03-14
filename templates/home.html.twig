@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+
+<h2 class="textCentre">Bienvenue sur votre dashboard <a href='{{ path('admin_show', {'id':app.user.id}) }}'>{{ app.user.prenom ~" "~ app.user.nom }}</a></h2>
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title textCentre">Les sessions à venir</h5>
+        <table  class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Détails programme</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set nb = 0 %}
+            {% for session in sessions %}
+                {% if session.dateDebut > date() %}
+                    {% set nb = nb + 1 %}
+                    <tr>
+                        <td><a href="{{ path('sessions_detail', { 'id':session.id }) }}">{{ session.nom }}</a> </td>
+                        <td> {{ session.dateDebut | date('d/m/Y') }} </td>
+                        <td> {{ session.dateFin | date('d/m/Y') }} </td>
+                        <td>
+                          <a href='{{ path("detailProgramme", {"id":session.id}) }}'>
+                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                <path fill-rule="evenodd" d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+                                <circle cx="3.5" cy="5.5" r=".5"/>
+                                <circle cx="3.5" cy="8" r=".5"/>
+                                <circle cx="3.5" cy="10.5" r=".5"/>
+                            </svg>
+                          </a>
+                        </td>
+                        <td>
+                          <a href='{{ path("sessions_edit", {"id":session.id}) }}'>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="confirmation" href="{{ path('session_delete', {'id':session.id}) }}">
+                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                          </a>                        
+                        </td>
+                    </tr>
+                {% endif %}
+                
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>Nombre total de sessions à venir : {{ nb }}</p>
+        <p>Nombre total de sessions : {{ sessions | length }}</p>
+        <a href='{{ path("sessions") }}'><button type="button" class="btn btn-primary">Liste des sessions</button></a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title textCentre">Les derniers stagiaires ajoutés</h5>
+        <table  class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Nom/Prénom</th>
+                    <th>Date de naissance</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for stagiaire in stagiaires %}
+            <tr>
+                <td><a href="{{ path('stagiaire_show', { 'id':stagiaire.id }) }}">{{ stagiaire.nom ~ " " ~ stagiaire.prenom }}</a> </td>
+                <td> {{ stagiaire.dateNaissance | date('d/m/Y') ~ " (" ~ date().diff(date(stagiaire.dateNaissance)).y ~ " ans)" }} </td>
+                <td> {{ stagiaire.email }}</td>
+                <td>
+                  <a href={{ path("stagiaire_edit", {'id':stagiaire.id}) }}>
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                      </svg>
+                  </a>
+                </td>
+                <td>
+                    <a class="confirmation" href="{{ path('stagiaire_delete', { 'id':stagiaire.id }) }}"> 
+                      <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                  </a>
+                </td>
+            </tr>
+                
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>Nombre total de stagiaires : {{ stagiairesTotal | length }}</p>
+        <a href='{{ path("stagiaire_index") }}'><button type="button" class="btn btn-primary">Liste des stagiaires</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<br>
+{# <a href='{{ path("sessions") }}'><button type="button" class="btn btn-dark">Liste des sessions</button></a>
+<a href='{{ path("modules") }}'><button type="button" class="btn btn-dark">Liste des modules</button></a> #}
+
+{% endblock %}

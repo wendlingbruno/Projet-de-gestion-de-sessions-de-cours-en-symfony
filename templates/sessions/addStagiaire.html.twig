@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %} <!-- ja'aimerais le faire autrement et non via un formulaire maison, mais j'ai pas trouvé à cause de la collection dans les formulaires, ceci dit ça marche -->
+
+    {{ form_start(formSessionStagiaire) }}
+    {{ form_row(formSessionStagiaire.stagiaires) }}
+        <button type="submit" class="btn">Ajouter</button>
+
+    {{ form_end(formSessionStagiaire) }}
+
+
+    {# <form action="{{ path('sessionsStagiaires_addOk', { 'id':session.id }) }}" method="post">
+
+<label for="pet-select">Stagiaire : </label>
+
+<select name="stagiaire" id="stagiaire">
+    {% for stagiaire in stagiaires %}
+            <option value={{ stagiaire.id }}>{{ stagiaire.nom }}</option>
+    {% endfor %}
+
+</select>
+
+        <button type="submit" class="btn">Ajouter</button>   
+</form> 
+     #}
+
+
+{% endblock %}

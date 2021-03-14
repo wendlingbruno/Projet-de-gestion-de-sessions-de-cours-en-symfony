@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Stagiaires{% endblock %}
+
+{% block contenu %}
+    
+   {% if editMode %}
+        <h3 class="textCentre">Edition du stagiaire 
+            <a href="{{ path('stagiaire_show', { 'id':stagiaire.id }) }}">
+                {{ stagiaire.nom ~ " " ~ stagiaire.prenom }}
+            </a>
+        </h3>
+   {% else %}
+        <h3 class="textCentre">Ajouter un stagiaire</h3>   
+   {% endif %} 
+    {{ form(formStagiaire) }}
+
+{% endblock %}
